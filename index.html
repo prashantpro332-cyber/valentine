@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valentine 💖</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    .gradient-background {
+      background: linear-gradient(
+        180deg,
+        #ffd0e5 0%,
+        #ffe8f2 40%,
+        #ffffff 100%
+      );
+    }
+
+    .bounce {
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-20px);
+      }
+      60% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+
+<body class="gradient-background">
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="flex flex-col items-center text-center p-4 relative">
+
+      <img
+        id="imageDisplay"
+        src="./images/image1.gif"
+        class="rounded-xl h-[300px] object-cover mb-4"
+        alt="cute gif"
+      />
+
+      <h2
+        id="valentineQuestion"
+        class="text-4xl font-bold italic text-[#bd1e59] mb-6"
+      >
+        Will you be my Valentine? 💌
+      </h2>
+
+      <div id="responseButtons" class="relative flex items-center justify-center gap-6">
+
+        <button
+          id="yesButton"
+          class="bounce bg-green-500 hover:bg-green-400 text-white rounded-xl transition-all z-10"
+          style="width: 120px; height: 50px; font-size: 20px;"
+        >
+          Yes 💖
+        </button>
+
+        <button
+          id="noButton"
+          class="bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all"
+          style="width: 120px; height: 50px; font-size: 20px;"
+        >
+          No 😐
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
+    const imageDisplay = document.getElementById("imageDisplay");
+    const valentineQuestion = document.getElementById("valentineQuestion");
+    const responseButtons = document.getElementById("responseButtons");
+
+    let noClickCount = 0;
+    let yesWidth = 120;
+    let yesHeight = 50;
+    let yesFont = 20;
+
+    const imagePaths = [
+      "./images/image1.gif",
+      "./images/image2.gif",
+      "./images/image3.gif",
+      "./images/image4.gif",
+      "./images/image5.gif",
+      "./images/image6.gif",
+      "./images/image7.gif"
+    ];
+
+    const noTexts = [
+      "No 😐",
+      "Are you sure? 😕",
+      "Pookie please 🥺",
+      "Don't do this 😭",
+      "You're breaking my heart 💔",
+      "I'm gonna cry fr 😢"
+    ];
+
+    noButton.addEventListener("click", () => {
+      if (noClickCount < 6) {
+        noClickCount++;
+
+        imageDisplay.src = imagePaths[noClickCount];
+        noButton.textContent = noTexts[noClickCount];
+
+        // YES grows
+        yesWidth += 45;
+        yesHeight += 18;
+        yesFont += 7;
+
+        yesButton.style.width = yesWidth + "px";
+        yesButton.style.height = yesHeight + "px";
+        yesButton.style.fontSize = yesFont + "px";
+
+        // NO fades away
+        noButton.style.opacity = 1 - noClickCount * 0.2;
+
+        // NO disappears completely
+        if (noClickCount >= 5) {
+          noButton.style.display = "none";
+        }
+      }
+    });
+
+    yesButton.addEventListener("click", () => {
+      imageDisplay.src = "./images/image7.gif";
+      valentineQuestion.textContent = "YAYYYY!! 💘🥰";
+      responseButtons.style.display = "none";
+
+      confetti({
+        particleCount: 200,
+        spread: 90,
+        origin: { y: 0.6 }
+      });
+    });
+  </script>
+</body>
+</html>
